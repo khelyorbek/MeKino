@@ -1,0 +1,56 @@
+{% extends 'base.html'  %}
+
+{% block title %} Edit user profile {% endblock %}
+
+{% block content %}
+<!-- For WTForms - edit user form -->
+<div class="container col-sm-12 col-lg-5 justify-content-center pt-5">
+    <h3 class="display-4 text-light">Edit Profile</h3>
+    <p class="lead text-light">Need to create another account? Go to <a href="/login" class="text-primary">registration</a> instead</p>
+    <form method="POST">
+    <!-- For CSRF token -->
+    {{ form.hidden_tag() }}
+
+    
+            {% for field in form
+                if field.widget.input_type != 'hidden' and field.name != 'password'%}
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon3">{{ field.label }}</span>
+                </div>
+                <!-- Giving a class of form-control for Boostrap -->
+                <!-- If its the username, input is disabled -->
+                {% if field.name == 'username' %}
+                  {{ field(class_="form-control",readonly=true) }}
+                {% else %}
+                {{ field(class_="form-control") }}
+                {% endif %}
+                
+            </div> 
+                <!-- Displaying all the errors below the field -->
+                {% for error in field.errors %}
+                <span class="form-text text-danger">{{ error }}</span>
+                {% endfor %}
+            </p>
+            {% endfor %}
+    
+    <!-- Making sure that the user types in the correct password to update their profile -->
+    <p class="text-light">To confirm changes, enter your password:</p>
+        {% if form.password.errors %}
+          {% for error in form.password.errors %}
+            <span class="text-danger">
+            {{ error }}
+          </span>
+          {% endfor %}
+        {% endif %}
+        {{ form.password(placeholder="Enter your password to confirm", class="form-control") }}
+
+        <div class="edit-btn-area mt-2 ">
+          
+          <button class="btn btn-primary col-lg-5 float-start">Update</button>
+          <a href="/" class="btn btn-light col-lg-5 float-end">Cancel</a>
+        </div>
+    </form>
+
+</div>
+{% endblock %}

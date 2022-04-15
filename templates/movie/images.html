@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %} {{movie['title']}} {% endblock %}
+
+{% block header %} {% endblock %}
+
+{% block content %}
+<!-- Logic for showing movie backgrounds in a slideshow -->
+<div id="movieImageCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner" >
+        {% for image in images %}
+          
+        <!-- if its a first item on the list, add "active" class -->
+        {% if image == images[0] %}
+          <!-- Bootstrap mandates that the first item has the active class -->
+          <div class="carousel-item active">
+        {% else %}
+          <div class="carousel-item">
+        {% endif %} 
+          <img src="https://image.tmdb.org/t/p/w1280{{image['file_path']}}" class="d-block w-100" style="height:720px; object-fit:contain;">
+        </div>
+        {% endfor %}
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#movieImageCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon p-4" aria-hidden="true" style="background-color:black; border-radius:0.5rem;"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#movieImageCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon p-4" aria-hidden="true"style="background-color:black; border-radius:0.5rem;"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+
+{% endblock %}

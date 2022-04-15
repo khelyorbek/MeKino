@@ -1,0 +1,197 @@
+{% extends 'base.html' %}
+
+{% block title %} {{movie['title']}} {% endblock %}
+
+{% block header %} {% endblock %}
+
+{% block content %}
+<!-- Modal Logic for adding the item to a playlist. Modal logic only. The button logic is below -->
+<div class="modal fade" style="backdrop-filter: blur(5px);" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content " style="height: 40rem;">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Add to playlist</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body mb-3">
+        
+        <!-- Create a new playlist logic -->
+        <a href="/playlist/create" style="text-decoration: none;">
+          <div class="card col-12" style="height: 4rem;">
+            <div class="row g-0">
+              <div class="col-2 mx-auto">
+                <svg xmlns="http://www.w3.org/2000/svg" width="75%" height="95%" style="display:block; margin: 0 auto;" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                  <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                </svg> 
+              </div>
+              <div class="col-10"><h4 class="h4" style="padding: 1rem 0">Create New Playlist</h4></div>
+          </div>
+        </a>
+
+        <hr style="border: 1px solid grey;">
+
+        <!-- Logic for displaying playlist items. If the playlists are empty, displays an icon and message. -->
+        {% if g.user.playlists is defined and g.user.playlists|length > 0 %}
+          <!-- Does this if there are playlists. Logic for sending the REST requets is handled in JS by Axios. -->
+          {% for playlist in g.user.playlists %}
+          <div class="card mb-2 col-12" text-align: center;" id="movie-detail-playlist-div">
+            <div class="row g-0" id="{{playlist.id}}">
+              <div class="col-12 p-2" id="movie-detail-playlist-item">
+                <h5 class="mb-0">{{playlist.name}}</h5>
+              <!-- Logic for showing that the movie is already inside the playlist-->
+              {% for plist_movie in playlist.movies %}
+                {% if movie['id'] == plist_movie.movie_id %}
+                  <p id="movie-details-playlist-item-already" class="m-0"><i class="bi bi-check2"></i> The movie is already in this playlist</span>
+                {% else %}
+                  
+                {% endif %} 
+                
+              {% endfor %}
+            
+            </div>
+          </div>
+        </div>
+          {% endfor %}  
+        {% else %}
+          <!-- Does this if there are NO playlistsm shows a message and a big icon -->
+          <div class="col-12 justify-content-center text-dark mx-auto my-5">
+            <div class="col-3 mx-auto">
+                <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="currentColor" class="bi bi-inbox" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd" d="M0 .5A.5.5 0 0 1 .5 0h2a.5.5 0 0 1 0 1h-2A.5.5 0 0 1 0 .5Zm4 0a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1h-10A.5.5 0 0 1 4 .5Zm-4 2A.5.5 0 0 1 .5 2h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm4 0a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5Zm-4 2A.5.5 0 0 1 .5 4h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm4 0a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5Zm-4 2A.5.5 0 0 1 .5 6h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm4 0a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 0 1h-8a.5.5 0 0 1-.5-.5Zm-4 2A.5.5 0 0 1 .5 8h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm4 0a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 0 1h-8a.5.5 0 0 1-.5-.5Zm-4 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm4 0a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1h-10a.5.5 0 0 1-.5-.5Zm-4 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm4 0a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5Zm-4 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm4 0a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5Z"/>
+                </svg>
+            </div>
+            <div class="col-12 mx-auto text-center mt-4">
+                <h4 class="h4">No playlists found.</h4>
+                <h4 class="h4">Please create a playlist first.</h4>
+            </div>
+            
+        </div>
+        {% endif %}
+        
+
+      </div>
+        
+      </div>
+      <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Understood</button>
+      </div> -->
+    </div>
+  </div>
+</div>
+
+<!-- ELEMENTS FOR DISPLAYING THE MOVIE POSTER -->
+<div style="background-image: url('https://image.tmdb.org/t/p/w1280{{movie["backdrop_path"]}}'); background-size:cover;">
+  <div class="row p-4" > 
+    <div class="col-sm-12 col-lg-3">
+      <a href="/movie/{{movie['id']}}/images">
+      <div id="movie-details-poster-div">
+        
+        <img src="
+        {% if movie['poster_path'] %}
+        https://image.tmdb.org/t/p/w1280{{movie['poster_path']}}
+        {% else %}
+        /static/no_poster.png
+        {% endif %}
+        " class="img-thumbnail" id="movie-details-poster-img" alt="Movie poster">
+
+        <!-- ELEMENTS FOR THE VIEW MORE HOVER -->
+        <div id="movie-details-poster-txt-div">
+          <h3 id="movie-details-poster-txt"><i class="bi bi-images"></i> VIEW MORE</h3>
+        </div>
+      </div>
+      </a>
+    </div>
+
+    <!-- ELEMENTS IN THE MAIN DIV THAT DISPLAYS MOVIE DETAILS -->
+    <div class="col-sm-12 col-lg-9 text-light" id="movie-details-top-details">
+      <h5 class="display-5">{{movie['title']}}</h5>
+      <hr>
+    
+      <!-- Only showing marking as watched and playlist options if the user is logged in -->
+      {% if g.user %}
+        <!-- Logic for the mark as watched / unwatched. Shows as unwatched if the movie is already marked watched -->
+        <button class="btn btn-outline-light" id="btn_watch_unwatch">
+          <!-- lOGIC IF THE MOVIE IS ALREADY WATCHED. DISPLAYS DIFFERENT BUTTONS -->
+          {% if mov_watched == True %}  
+            <i class="bi bi-bookmark-dash-fill"></i> Mark not watched</button>
+          {% else %}
+            <i class="bi bi-bookmark-plus"></i></i> Mark as watched</button>
+          {% endif %}
+
+        <!-- Logic for adding the item to a playlist. Button logic only. The modal logic is at the top -->
+        <button class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="bi bi-list-check"></i> Add to playlist</button>
+
+        <hr>
+      {% endif %}
+      
+        <!-- RESERVED FOR FUTURE IMPLEMENTATION -->
+        <!-- <button class="btn btn-outline-light"><i class="bi bi-play-fill"></i>  Ways to watch</button> -->
+      
+      <!-- DETAILS OF THE MOVIE -->
+      <p><strong>TMDB ID: </strong><span id="movie_id">{{movie['id']}}</span></p>
+      
+      <p class="text-light"><strong>Genre(s):</strong>
+        <!-- Displaying genres -->
+        {% for genre in movie['genres'] %}
+          {{genre['name']}} | 
+        {% endfor %}
+      </p>
+      
+      <p><strong>Released: </strong>{{movie['release_date']}}</p>
+
+      <!-- Logic for calculating the time in hh mm format. originally is in minutes format only -->
+      <p><strong>Runtime: </strong>{{
+        movie['runtime']//60
+      }}h {{movie['runtime']%60}}m</p>
+
+      <!-- Logic for showing the budget. Sometimes the API will have 0 because it has no info. Showing not available if that's the case -->
+      <p><strong>Budget: </strong>
+        {% if movie['budget'] == 0 %}
+        Not available
+        {% else %}
+        ${{movie['budget']}}
+        {% endif %}
+        
+      </p>
+
+      <!-- Logic for showing the revenue. Sometimes the API will have 0 because it has no info. Showing not available if that's the case -->
+      <p><strong>Revenue: </strong>
+        {% if movie['revenue'] == 0 %}
+        Not available
+        {% else %}
+        ${{movie['revenue']}}
+        {% endif %}
+
+      <p><strong>Website: </strong><a href="{{movie['homepage']}}" target="_blank" class="text-light text-decoration-none">{{movie['homepage']}}</a></p>
+
+      <p><strong>Overview: </strong>{{movie['overview']}}</p>
+
+      <!-- Logic for production companies. Displays the name and the logo of the company -->
+      <p><strong>Production Companies: </strong></p>
+      <div class="row row-cols-4 row-cols g-4 mb-3">
+        {% for company in movie['production_companies'] %}
+        <div class="col">
+          <div class="card bg-light bg-opacity-10 border-light p-2">
+            
+            <img 
+            {% if company['logo_path'] is none %}
+            src="/static/no_image.png"
+            {% else %}
+            src="https://image.tmdb.org/t/p/w300{{company['logo_path']}}"
+            {% endif %}
+            class="card-img-top" alt="{{company.name}} logo" id="movie-details-company-logo">
+            <div class="card-body pt-1 pb-0">
+              <p class="card-title text-center">{{company.name}}</p>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+{% endblock %}

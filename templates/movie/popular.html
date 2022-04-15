@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block title %} Popular Movies {% endblock %}
+
+{% block nav2 %} active {% endblock %}
+
+{% block content %}
+<div class="container-fluid" id="movie-list">
+<div class="row row-cols-2 justify-content-center mt-2" style="--bs-gutter-x:0; ">
+        {% for movie in popular %}
+        
+        <div class="col m-1 card bg-black text-light border-dark" style="width: 13rem;">
+            <a href="/movie/{{movie.id}}" style="text-decoration:none; color:white;">
+              <img class="card-img-top img-fluid" src="
+              {% if movie.poster_path %}
+              https://image.tmdb.org/t/p/w500{{movie.poster_path}}
+              {% else %}
+              /static/no_poster.png
+              {% endif %}
+              " alt="Movie poster">
+                <div class="card-body">
+                    <h6 class="card-title">{{movie.title}}</h5>
+                    <!-- <p class="card-text" style="max-height:50%; overflow:hidden;">{{movie.overview}}</p> -->
+<!-- 
+                </div>
+                <div class="card-footer"> -->
+                  <p class="card-text"><small class="text-muted align-text-bottom"><strong>Released:</strong> {{movie.release_date}}</small>
+                  
+                  <small class="text-muted align-text-bottom"><strong>Genre(s):</strong>
+                  <!-- Logic for genres -->
+                  {% for genre in genres %}
+                  <!-- Returns >>> {'id': 28, 'name': 'Action'} -->
+                    {% for genre_id in movie.genre_ids %} 
+                        <!-- Returns a number that is a genre id -->
+                        {% if genre_id == genre['id'] %} 
+                            <!-- displaying the name of the genre if the ids match -->
+                            {{genre['name']}} |
+                        {% endif %}
+                    {% endfor %}
+                  {% endfor %}
+                </small></p>
+                  
+                </div>
+            <!-- poster -->
+            <!-- title -->
+            <!-- release date -->
+            <!-- votes -->
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+    <!-- Pagination -->
+    <form action="GET">
+      <nav class="mt-2">
+          <ul class="pagination justify-content-center pagination-lg">
+          <!-- Hiding the Previous button if on the 1st page -->
+          {% if page != 1 %}
+          <li class="page-item"><button class="page-link bg-dark text-light" formaction="/popular/{{page - 1}}" style="width: 10rem; text-align: center;">Previous</button></li>
+          {% endif %}
+            <li class="page-item"><button class="page-link bg-dark text-light" formaction="/popular/{{page + 1}}" style="width: 10rem; text-align: center;">Next</button></li>
+          </ul>
+        </nav>
+      </form>
+    {% endblock %}
+
+    {% block footer %} {% endblock %}
