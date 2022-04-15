@@ -1,0 +1,69 @@
+body {
+    background-image: linear-gradient( 108.8deg,  rgb(0, 40, 63), rgb(20, 0, 53));
+    /* To prevent issues with footer overlapping body content */
+    padding-bottom: 5rem;
+}
+
+/* For the trending, popular and top movie lists */
+#movie-list .card:hover{
+    transform: scale(1.03);
+    box-shadow: 0px 0px 20px 1px rgba(255,255,255,1);
+}
+
+/* For the movie details page > Poster and the backdrop logic */
+#movie-details-top-details {
+    background-color: rgba(0,0,0,0.6); 
+    backdrop-filter: blur(10px);
+    border-radius: 0.8rem;
+    overflow: overlay;
+}
+
+/* For the movie details page > Production company logic */
+#movie-details-production-cards {
+    background-color: transparent;
+    color: white;
+}
+
+/* For the movie details page > Production company > Logo */
+#movie-details-company-logo {
+    max-height: 3rem;
+    object-fit: scale-down;
+}
+
+/* For the movie details page > Poster and the backdrop logic */
+#movie-details-poster-div {
+    position:relative;
+}
+
+/* For the movie details page > Poster and the backdrop logic */
+#movie-details-poster-div:hover {
+    filter: saturate(0.2)
+}
+
+/* For the movie details page > Poster and the backdrop logic */
+#movie-details-poster-txt-div {
+    visibility: hidden;
+    position: absolute; 
+    top:50%; 
+    text-align: center; 
+    width: 100%; 
+    color:white;
+    padding-top: 0.3rem;
+}
+
+/* For the movie details page > Poster and the backdrop logic */
+#movie-details-poster-txt-div {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+/* For the movie details page > Add to Playlist Logic */
+#movie-detail-playlist-div:hover {
+    background-color: lightblue;
+}
+
+/* For private playlist logic > Create new logic */
+@media only screen and (max-width:991px) {
+    #playlist-private-create-new-h4 {
+        text-align: center !important;
+    }
+}
