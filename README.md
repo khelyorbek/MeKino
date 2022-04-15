@@ -10,7 +10,7 @@ MeKino is a web app that allows you to register, login, edit your profile, view 
 
 # 1. Usage
 ## Using the app online
-Please click on this link to open the application in Heroku.
+Please **[click on this link](https://mekino.herokuapp.com/)** to open the application in Heroku.
 
 ## Running the app locally
 1. Download the contents of this github repo
@@ -79,8 +79,7 @@ All the movies above are arranged in a card layout with a movie poster, movie ti
 | movie/top_rated     | GET    | page = `x` (where x is the pagination page number) | Getting Top rated movies of all time. |
 | movie/`id` (where id is the id of the movie) | GET | NA | Getting all the details of a singular movie. |
 | movie/`id`/images | GET | language = `en` | Getting all the English images of a singular movie. |
-| search/movie | GET | query = `q` (where q is the search term typed), page = `x` (where x is the pagination page number) | Getting all the results based on the search term criteria. |
-|  |  |  |  |
+| search/movie | GET | query = `q` (where q is the search term typed), page = `x` (where x is the pagination page number) | Getting all the results based on the search term criteria. |  
 
 **Note:** For all  TMDB API requests, an `API_KEY` is required. If you are planning to use this project locally, you need to visit https://developers.themoviedb.org/3/getting-started/introduction and sign up for your own API Key and save it into a `API_KEY` variable name inside secrets.py file.  
 <br>
@@ -122,20 +121,16 @@ All the movies above are arranged in a card layout with a movie poster, movie ti
 ## Relationships
 1. `user` table
     - does not reference any tables or columns  
-    <br>
 
 2. `watched_movies` table
     - `user_id` references the `user` table `id` column  
-    <br>
 
 3. `playlist` table
     - `author` references the `user` table `id` column  
-    <br>
 
 4. `shared_playlist` table
     - `playlist_id` references the `playlist` table `id` column  
     - `user_id` references the `user` table `id` column  
-    <br>
 
 5. `playlist_movies` table
     - `playlist_id` references the `playlist` table `id` column  
