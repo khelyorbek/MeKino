@@ -31,7 +31,7 @@ GENRES_LIST = (requests.get(f"{BASE_URL}genre/movie/list",params={"api_key": API
 app = Flask(__name__)
 
 # configuring Flask and SQL Alchemy
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///mekino'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://test:test@localhost/mekino'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
 app.config['SECRET_KEY'] = "SomeDevelopmentKeyword040622"
