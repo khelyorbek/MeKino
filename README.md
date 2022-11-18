@@ -10,7 +10,7 @@ MeKino is a web app that allows you to register, login, edit your profile, view 
 
 # 1. Usage
 ## Using the app online
-Please **[click on this link](https://mekino.herokuapp.com/)** to open the application in Heroku.
+Please **[click on this link](https://mekino.elyorbek.com/)** to open the application in Heroku.
 
 ## Running the app locally
 1. Download the contents of this github repo
@@ -40,7 +40,7 @@ All the movies above are arranged in a card layout with a movie poster, movie ti
 <br>
 
 # 3.Tech Stack
-### [Heroku](https://www.heroku.com/) - hosting this application, static resources and the database.
+### [Vultr](https://vultr.com) - hosting this application, static resources and the database.
 ### [Gunicorn](https://gunicorn.org/) - python server for running our flask application on Heroku.
 ### [Github](https://github.com/about) - storing the source code of this web application.
 ### [HTML5](https://developer.mozilla.org/en-US/docs/Glossary/HTML) - creating the foundational elements and the layout of the pages.
