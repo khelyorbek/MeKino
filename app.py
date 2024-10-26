@@ -18,23 +18,24 @@ from forms import RegisterForm, LoginForm, UserEditForm, CreateNewPlaylistForm  
 from string import ascii_letters    ### for url generation
 from random import choice   ### for url generation
 
-# importing the API key saved in our secrets file
-# if you are planning to use this project, you need to visit https://developers.themoviedb.org/3/getting-started/introduction and sign up for your own API Key and save it into a API_KEY variable name inside secrets.py file 
-from secrets import * 
+# importing the API key saved in our environmental variables
+# if you are planning to use this project, you need to visit https://developers.themoviedb.org/3/getting-started/introduction and sign up for your own API Key and save it into a API_KY environmental variable  
+import os
 
 # mapping the base URL of the API into a variable
 BASE_URL = "https://api.themoviedb.org/3/"
 # mapping the list of genres into a variable
-GENRES_LIST = (requests.get(f"{BASE_URL}genre/movie/list",params={"api_key": API_KEY})).json()['genres']
+GENRES_LIST = (requests.get(f"{BASE_URL}genre/movie/list",params={"api_key": os.environ['API_KEY']})).json()['genres']
 
 # mapping the Flask object into a variable
 app = Flask(__name__)
 
 # configuring Flask and SQL Alchemy
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://test:test@localhost/mekino'
+# OLD postgresql://test:test@localhost/mekino
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['SQLALCHEMY_DATABASE_URI']
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
-app.config['SECRET_KEY'] = "SomeDevelopmentKeyword040622"
+app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
 
 # connecting to a database
 connect_db(app)
@@ -237,7 +238,7 @@ def show_trending_paged(page):
         flash("Page number too low. Setting page number to 1.", "info")
 
     # getting the list of trending movies and mapping into a variable. Passing a page number from the url for use in pagination.
-    trending = requests.get(f"{BASE_URL}trending/movie/week",params={"api_key": API_KEY, "page": page})
+    trending = requests.get(f"{BASE_URL}trending/movie/week",params={"api_key": os.environ['API_KEY'], "page": page})
     # rendering a template and passing the json version of the results, also passing the genres and the page number
     return render_template('movie/trending.html', trending = trending.json()['results'], genres = GENRES_LIST, page = page)
 
@@ -261,7 +262,7 @@ def show_popular_paged(page):
         flash("Page number too low. Setting page number to 1.", "info")
 
     # getting the list of movies and mapping into a variable. Passing a page number from the url for use in pagination.
-    popular = requests.get(f"{BASE_URL}movie/popular",params={"api_key": API_KEY, "page": page})
+    popular = requests.get(f"{BASE_URL}movie/popular",params={"api_key": os.environ['API_KEY'], "page": page})
     # rendering a template and passing the json version of the results, also passing the genres and the page number
     return render_template('movie/popular.html', popular = popular.json()['results'], genres = GENRES_LIST, page = page)
 
@@ -285,7 +286,7 @@ def show_top_paged(page):
         flash("Page number too low. Setting page number to 1.", "info")
 
     # getting the list of movies and mapping into a variable. Passing a page number from the url for use in pagination.
-    top = requests.get(f"{BASE_URL}movie/top_rated",params={"api_key": API_KEY, "page": page})
+    top = requests.get(f"{BASE_URL}movie/top_rated",params={"api_key": os.environ['API_KEY'], "page": page})
     # rendering a template and passing the json version of the results, also passing the genres and the page number
     return render_template('movie/top.html', top = top.json()['results'], genres = GENRES_LIST, page = page)
 
@@ -296,7 +297,7 @@ def show_movie_details(id):
     """For displaying information about the individual movie. Not a list. GET request only."""
     
     # getting the movie information from API and storing into variable
-    movie = requests.get(f"{BASE_URL}movie/{id}",params={"api_key": API_KEY})
+    movie = requests.get(f"{BASE_URL}movie/{id}",params={"api_key": os.environ['API_KEY']})
 
     # only pulling watched if the user is logged in
     if "curr_user" in session:
@@ -315,10 +316,10 @@ def show_movie_images(id):
     """For showing movies for individual movies. GET request only."""
 
     # getting the movie information from API and storing into variable
-    movie = requests.get(f"{BASE_URL}movie/{id}",params={"api_key": API_KEY})
+    movie = requests.get(f"{BASE_URL}movie/{id}",params={"api_key": os.environ['API_KEY']})
 
     # getting the list of images available in english
-    images = requests.get(f"{BASE_URL}movie/{id}/images",params={"api_key": API_KEY, "language": "en"})
+    images = requests.get(f"{BASE_URL}movie/{id}/images",params={"api_key": os.environ['API_KEY'], "language": "en"})
     
     # if there are no backdrops to show, switches to backup plan -> showing movie posters.
     # if we don't have this, less popular/known movies will just show a broken image icon.
@@ -400,7 +401,7 @@ def show_playlist_watched():
     for id in watched_movie_ids:
         # Getting the info about the watched movie from the API in the json format
         # Appending the results into a watched movies list
-        watched_movies.append(requests.get(f"{BASE_URL}movie/{id}",params={"api_key": API_KEY}).json())
+        watched_movies.append(requests.get(f"{BASE_URL}movie/{id}",params={"api_key": os.environ['API_KEY']}).json())
     
     # Rendering a template and passing all the watched movies into it
     return render_template('/playlist/watched.html', watched_movies=watched_movies)
@@ -584,7 +585,7 @@ def show_private_playlist_details(id):
     for m_id in p_movie_ids:
         # sending a GET request to the API and getting the movie details in JSON format
         # appending each movie details into the list variable
-        p_movies.append(requests.get(f"{BASE_URL}movie/{m_id}",params={"api_key": API_KEY}).json())
+        p_movies.append(requests.get(f"{BASE_URL}movie/{m_id}",params={"api_key": os.environ['API_KEY']}).json())
 
     # rendering a template and passing the playlist and movies inside the playlist as variables
     return render_template('playlist/private_single.html', playlist = p, playlist_movies = p_movies)
@@ -691,7 +692,7 @@ def show_shared_playlist_details(url_code):
     for m_id in p_movie_ids:
         # querying the API for the movie details for each movie id in the playlist
         # then appending each movie into the list variable
-        p_movies.append(requests.get(f"{BASE_URL}movie/{m_id}",params={"api_key": API_KEY}).json())
+        p_movies.append(requests.get(f"{BASE_URL}movie/{m_id}",params={"api_key": os.environ['API_KEY']}).json())
 
     # Getting the author information by querying the p.author which is an id of the user
     a = User.query.get_or_404(p.author)
@@ -710,7 +711,7 @@ def show_search_results(q, page):
 
     # sending a GET request to the URL with the query passed to this method. then mapping the results into a variable
     # passing the page number to make sure we are displaying the search results for correct page number
-    results = requests.get(f"{BASE_URL}search/movie",params={"api_key": API_KEY, "query": q, "page": page})
+    results = requests.get(f"{BASE_URL}search/movie",params={"api_key": os.environ['API_KEY'], "query": q, "page": page})
     
     # Using try/except to catch any errors that might occur while sending a request to API. Such as sending empty string, space, multiple spaces, unsupported character, etc.
     try:
