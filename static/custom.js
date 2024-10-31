@@ -93,7 +93,7 @@ if (window.location.href.indexOf("movie/") > -1 && window.location.href.indexOf(
                 mark_watched(movie_id)
                 // Setting the inner html of the button to an updated icon and text
                 btn_watch_unwatch.innerHTML = '<i class="bi bi-bookmark-dash-fill"></i> Mark not watched'
-            //if the button shows not watched, do this
+                //if the button shows not watched, do this
             } else if (btn_watch_unwatch.innerText === " Mark not watched") {
                 // mapping the DOM element to a variable
                 movie_id = document.getElementById('movie_id').innerText
@@ -144,7 +144,7 @@ if (window.location.href.indexOf("movie/") > -1 && window.location.href.indexOf(
             if (i.children[1]) {
                 // Setting the background color of the div as green
                 i.style.setProperty('background-color', 'limegreen')
-            // If the movie is not in the playlist yet, do this
+                // If the movie is not in the playlist yet, do this
             } else {
                 // adding on event listener for clicking
                 i.addEventListener('click', function (e) {
@@ -170,7 +170,7 @@ if (window.location.href.indexOf("playlist/watched") > -1) {
     btn_playlist_watched_remove = document.querySelectorAll('#playlist-watched-remove-button')
     // only running this logic if we are on the correct page (if we get a result from our queryselectorall)
     if (btn_playlist_watched_remove !== null) {
-         // since the querySelectAll returns a list, running the following for each item
+        // since the querySelectAll returns a list, running the following for each item
         for (let i of btn_playlist_watched_remove) {
             // adding on event listener for clicking
             i.addEventListener('click', function (e) {
@@ -179,8 +179,8 @@ if (window.location.href.indexOf("playlist/watched") > -1) {
                 // if the button says Remove, make sure we display Are you sure to confirm
                 if (i.innerHTML === '<i class="bi bi-trash3"></i> Remove') {
                     i.innerHTML = "Are you sure?"
-                
-                // If the button does not say that, do the following. Example is second click after Are you sure?. 
+
+                    // If the button does not say that, do the following. Example is second click after Are you sure?. 
                 } else {
                     // getting the id attribute of the parent which is a movie id
                     movie_id = i.parentElement.getAttribute('id')
@@ -211,7 +211,7 @@ if (window.location.href.indexOf("playlist/private") > -1) {
                 if (i.innerHTML === '<i class="bi bi-trash3"></i> Remove') {
                     i.innerHTML = "Are you sure?"
 
-                // If the button does not say that, do the following. Example is second click after Are you sure?. 
+                    // If the button does not say that, do the following. Example is second click after Are you sure?. 
                 } else {
                     // getting the id attribute of the parent which is a playlist id
                     playlist_id = i.parentElement.getAttribute('id')
@@ -228,16 +228,16 @@ if (window.location.href.indexOf("playlist/private") > -1) {
     // mapping the DOM element to a variable
     playlist_private_share_button = document.querySelectorAll('#playlist-private-share-button')
     // only running this logic if we are on the correct page (if we get a result from our getelementbyid)
-    if (playlist_private_share_button !== null) { 
+    if (playlist_private_share_button !== null) {
         // since the querySelectAll returns a list, running the following for each item
-        for (let i of playlist_private_share_button) { 
+        for (let i of playlist_private_share_button) {
             // adding on event listener for clicking
-            i.addEventListener('click', function (e) { 
+            i.addEventListener('click', function (e) {
                 // preventing the default behavior of the DOM element
                 e.preventDefault()
                 playlist_id = i.parentElement.getAttribute('id')
 
-                if(i.getAttribute('url')) {
+                if (i.getAttribute('url')) {
                     // if the playlist already has a shared url, don't send axios reqest, just redirect
                     // prevents us from causing DB collision issues. We don't want to generate URLs multiple times
                     let url = i.getAttribute('url')
@@ -249,7 +249,7 @@ if (window.location.href.indexOf("playlist/private") > -1) {
                     let u = share_playlist(playlist_id)
                     // resolve the promise into a response (which is a URL)
                     // then redirect the user into a newly shared playlist
-                    u.then(data => {location.href = `/playlist/shared/${data}`;})
+                    u.then(data => { location.href = `/playlist/shared/${data}`; })
                 }
             })
         }
@@ -270,7 +270,7 @@ if (window.location.href.indexOf("playlist/private") > -1) {
                 if (i.innerHTML === '<i class="bi bi-trash3"></i> Remove') {
                     i.innerHTML = "Are you sure?"
 
-                // If the button does not say that, do the following. Example is second click after Are you sure?. 
+                    // If the button does not say that, do the following. Example is second click after Are you sure?. 
                 } else {
                     // getting the id attribute of the parent which is a movie id
                     movie_id = i.parentElement.getAttribute('mov_id')
@@ -291,11 +291,11 @@ if (window.location.href.indexOf("playlist/shared") > -1) {
     // mapping the DOM element to a variable
     playlist_shared_unshare_button = document.querySelectorAll('#playlist-shared-unshare-button')
     // only running this logic if we are on the correct page (if we get a result from our getelementbyid)
-    if (playlist_shared_unshare_button !== null) { 
+    if (playlist_shared_unshare_button !== null) {
         // since the querySelectAll returns a list, running the following for each item
-        for (let i of playlist_shared_unshare_button) { 
+        for (let i of playlist_shared_unshare_button) {
             // adding on event listener for clicking
-            i.addEventListener('click', function (e) { 
+            i.addEventListener('click', function (e) {
                 // preventing the default behavior of the DOM element
                 e.preventDefault()
                 plist_id = i.parentElement.getAttribute('id')
@@ -303,67 +303,74 @@ if (window.location.href.indexOf("playlist/shared") > -1) {
                 if (i.innerHTML === '<i class="bi bi-person-x"></i> Un-share') {
                     i.innerHTML = "Are you sure?"
 
-                // If the button does not say that, do the following. Example is second click after Are you sure?. 
+                    // If the button does not say that, do the following. Example is second click after Are you sure?. 
                 } else {
                     // calling the custom method and passing the playlist id
                     unshare_playlist(plist_id)
                     // removing the div that we clicked on
                     i.parentElement.parentElement.parentElement.remove()
                 }
-                
-            })
-    }
 
-    // COPY URL BUTTON EVENT LISTENER
-    // mapping the DOM element to a variable
-    playlist_shared_copy_url_button = document.querySelectorAll('#playlist-shared-copy-url-button')
-    // only running this logic if we are on the correct page (if we get a result from our getelementbyid)
-    if (playlist_shared_copy_url_button !== null) { 
-        // since the querySelectAll returns a list, running the following for each item
-        for (let i of playlist_shared_copy_url_button) { 
-            // adding on event listener for clicking
-            i.addEventListener('click', function (e) { 
-                // preventing the default behavior of the DOM element
-                e.preventDefault()
-                // getting the attribute url which is the playlist's url
-                plist_url = i.getAttribute('url')
-                // getting the current url
-                curr_url = window.location.href;
-                // adding the current URL to / character and then the URL that was generated by us
-                full_url = curr_url + '/' + plist_url;
-                
-                // copying the newly created URL into clipboard
-                navigator.clipboard.writeText(full_url);
-
-                // Setting the inner html and classes to different values to show success
-                i.innerHTML = '<i class="bi bi-clipboard2-check"></i>  Copied'
-                // removing the class of btn-info which provided a blue background
-                i.classList.remove('btn-info')
-                // adding the class of success which makes the background green
-                i.classList.add('btn-success')
-                
-                // Timer for adding the original info and class back
-                setTimeout(() => {
-                    i.innerHTML = '<i class="bi bi-clipboard2"></i>  Copy URL'
-                    i.classList.remove('btn-success')
-                    i.classList.add('btn-info')
-                }, 1500) // 1.5 second timeout.
             })
         }
+
+        // COPY URL BUTTON EVENT LISTENER
+        // mapping the DOM element to a variable
+        playlist_shared_copy_url_button = document.querySelectorAll('#playlist-shared-copy-url-button')
+        // only running this logic if we are on the correct page (if we get a result from our getelementbyid)
+        if (playlist_shared_copy_url_button !== null) {
+            // since the querySelectAll returns a list, running the following for each item
+            for (let i of playlist_shared_copy_url_button) {
+                // adding on event listener for clicking
+                i.addEventListener('click', function (e) {
+                    // preventing the default behavior of the DOM element
+                    e.preventDefault()
+                    // getting the attribute url which is the playlist's url
+                    plist_url = i.getAttribute('url')
+                    // getting the current url
+                    curr_url = window.location.href;
+                    // adding the current URL to / character and then the URL that was generated by us
+                    full_url = curr_url + '/' + plist_url;
+
+                    // copying the newly created URL into clipboard
+                    navigator.clipboard.writeText(full_url);
+
+                    // Setting the inner html and classes to different values to show success
+                    i.innerHTML = '<i class="bi bi-clipboard2-check"></i>  Copied'
+                    // removing the class of btn-info which provided a blue background
+                    i.classList.remove('btn-info')
+                    // adding the class of success which makes the background green
+                    i.classList.add('btn-success')
+
+                    // Timer for adding the original info and class back
+                    setTimeout(() => {
+                        i.innerHTML = '<i class="bi bi-clipboard2"></i>  Copy URL'
+                        i.classList.remove('btn-success')
+                        i.classList.add('btn-info')
+                    }, 1500) // 1.5 second timeout.
+                })
+            }
+        }
     }
-}
 }
 
 // SEARCH LOGIC
 // mapping the DOM element to a variable
 search_form = document.getElementById('search-form')
 // Adding on event listener for submitting a form. The button type is also submit which triggering the form submission. Thus we don't need an even listener for the search button. Enter or Pressing the button will trigger the search
-search_form.addEventListener('submit', function(e){
+search_form.addEventListener('submit', function (e) {
     // preventing the default behavior of the DOM element
     e.preventDefault()
     // Finding the search textbox
     // mapping the DOM element to a variable
-    search_form_input = document.getElementById('search-form-input')
+    search_form_input = document.getElementById('search-form-input');
+    console.log("SEARCH_FORM_INPUT >>> ", search_form_input.value);
+
+    if (search_form_input.value === ' ') { (alert("The search query is empty or contains an unsupported character, please try a different search keyword.")) }
+
+    let cleanSearchQuery = search_form_input.value.filter(char => char !== '.' && char !== '/' && char !== '%' && char !== '\\' && char !== '?');
+    console.log("CLEANED SEARCH QUERY >>> ", search_form_input);
+
     // Redirecting the user to the search page
-    location.href = `/search/${search_form_input.value}/1`;
+    location.href = `/search/${cleanSearchQuery}/1`;
 })
