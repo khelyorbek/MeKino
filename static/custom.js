@@ -368,7 +368,7 @@ search_form.addEventListener('submit', function (e) {
 
     if (search_form_input.value === ' ') { (alert("The search query is empty or contains an unsupported character, please try a different search keyword.")) }
 
-    let cleanSearchQuery = search_form_input.value.filter(char => char !== '.' && char !== '/' && char !== '%' && char !== '\\' && char !== '?');
+    let cleanSearchQuery = Array.from(search_form_input).filter(char => char !== '.' && char !== '/' && char !== '%' && char !== '\\' && char !== '?').join('')
     console.log("CLEANED SEARCH QUERY >>> ", search_form_input);
 
     // Redirecting the user to the search page
