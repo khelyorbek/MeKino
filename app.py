@@ -712,6 +712,7 @@ def show_search_results(q, page):
     # New code to fix issue 8
     if ('.' in q) or ('/' in q) or ('%' in q) or ('\\' in q) or ('?' in q):
         flash("Search criteria contains unsupported characters. Please try searching again with a different keyword.", "danger")
+        return redirect('/')
 
     # sending a GET request to the URL with the query passed to this method. then mapping the results into a variable
     # passing the page number to make sure we are displaying the search results for correct page number
