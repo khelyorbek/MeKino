@@ -709,9 +709,18 @@ def show_search_results(q, page):
     if page is None:
         page = 1
 
+    # New code to fix issue 8
+    if ('.' in q) or ('/' in q) or ('%' in q) or ('\\' in q) or ('?' in q):
+        flash("Search criteria contains unsupported characters. Please try searching again with a different keyword.", "danger")
+
     # sending a GET request to the URL with the query passed to this method. then mapping the results into a variable
     # passing the page number to make sure we are displaying the search results for correct page number
     results = requests.get(f"{BASE_URL}search/movie",params={"api_key": os.environ['API_KEY'], "query": q, "page": page})
+
+    # TO DO 2
+    # If results return nothing, flash a message that says no results found
+    print("RESULTS")
+    print(results.json()['results']);
     
     # Using try/except to catch any errors that might occur while sending a request to API. Such as sending empty string, space, multiple spaces, unsupported character, etc.
     try:
