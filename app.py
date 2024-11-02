@@ -718,7 +718,7 @@ def show_search_results(q, page):
     # passing the page number to make sure we are displaying the search results for correct page number
     results = requests.get(f"{BASE_URL}search/movie",params={"api_key": os.environ['API_KEY'], "query": q, "page": page})
 
-    if results is []:
+    if len(results) == 0:
         # Flash an error
         flash("Search criteria did not return any results. Please try searching again with a different keyword.", "warning")
         # Redirect to homepage
