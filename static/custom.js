@@ -364,12 +364,13 @@ search_form.addEventListener('submit', function (e) {
     // Finding the search textbox
     // mapping the DOM element to a variable
     search_form_input = document.getElementById('search-form-input');
-    console.log("SEARCH_FORM_INPUT >>> ", search_form_input.value);
-
-    if (search_form_input.value === ' ') { (alert("The search query is empty or contains an unsupported character, please try a different search keyword.")) }
+    // console.log("SEARCH_FORM_INPUT >>> ", search_form_input.value);
 
     let cleanSearchQuery = Array.from(search_form_input.value).filter(char => char !== '.' && char !== '/' && char !== '%' && char !== '\\' && char !== '?').join('')
-    console.log("CLEANED SEARCH QUERY >>> ", cleanSearchQuery);
+    // console.log("CLEANED SEARCH QUERY >>> ", cleanSearchQuery);
+
+    if (search_form_input.value === ' ' || cleanSearchQuery === ' ') { (alert("The search query is empty or contains an unsupported character, please try a different search keyword.")) }
+
 
     // Redirecting the user to the search page
     location.href = `/search/${cleanSearchQuery}/1`;

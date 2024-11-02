@@ -718,16 +718,11 @@ def show_search_results(q, page):
     # passing the page number to make sure we are displaying the search results for correct page number
     results = requests.get(f"{BASE_URL}search/movie",params={"api_key": os.environ['API_KEY'], "query": q, "page": page})
 
-    if results.json()['results'] == '[]':
+    if results.json()['total_results'] == 0:
         # Flash an error
         flash("Search criteria did not return any results. Please try searching again with a different keyword.", "warning")
         # Redirect to homepage
         return redirect('/')
-
-    # TO DO 2
-    # If results return nothing, flash a message that says no results found
-    print(q + " RESULTS")
-    print(results.json()['results']);
     
     # Using try/except to catch any errors that might occur while sending a request to API. Such as sending empty string, space, multiple spaces, unsupported character, etc.
     try:
